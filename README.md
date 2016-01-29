@@ -7,8 +7,7 @@
 
 ## Intro
 
-show a JS object literal  but this just looks like a hash ..how is this creating an object? what about classes? and creating instances of those?
-
+create several object literals - but notice we're copying and pasting a lot of code. have one central place for scaffold for what we're building...
 
 ## Constructor Function
 Classes in ruby - constructor function in JS  - is prototype of object

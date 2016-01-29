@@ -11,7 +11,7 @@ create several object literals - but notice we're copying and pasting a lot of c
 
 ## Constructor Function
 Classes in ruby - constructor function in JS  - is prototype of object
-with several properties - no methods
+with several properties - no methods - prototype like class in ruby
 
 ## Creating Instance From Constructor
 

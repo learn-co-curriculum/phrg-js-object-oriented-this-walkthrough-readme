@@ -16,7 +16,6 @@ with several properties - no methods
 
 ## Creating Instance From Constructor
 
-create several new instances
-
+create several new instances and assign values to the properties
 
 ## Resources

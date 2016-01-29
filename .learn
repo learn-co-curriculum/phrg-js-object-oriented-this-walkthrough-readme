@@ -1,6 +1,7 @@
 tags:
-  - a tag
+  - objects
+  - constructor functions
 languages:
-  - a language
+  - JavaScript
 resources: 
   - 0

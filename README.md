@@ -60,11 +60,11 @@ function Sandwich (bread, crust, meat, condiments, veggies, cheese ){
 }
 ```
 
-You'll notice the name of the construction function `Sandwich` starts with a capital letter. This is important. Every constructor function starts with a capital letter, just like our class names in Ruby.
+You'll notice the name of the construction function `Sandwich` starts with a capital letter. This is important. While the capitalization of a function does not affect how it behaves, it serves as an important signal to our fellow programmers that this function should ONLY be used as a constructor.
 
 Next, we define the function to accept a whole bunch of parameters. When we create objects with this constructor function, we'll pass in the value of the properties we want our object to have.
 
-You'll also notice inside the body of the constructor function we're using `this`. In this case, `this` will refer to the current object being created. You can equally compare the usage here to the use of `self` inside of an initialize method in a Ruby class.
+You'll also notice inside the body of the constructor function we're using `this`. In this case, `this` will refer to the current object being created. For now it's ok to think about `this` being similar to Ruby's self.  In this context, `this` refers to the object itself just like `self` does in Ruby.  
 
 
 ## Creating Instance From Constructor
@@ -78,9 +78,9 @@ var turkeyClub = new Sandwich("sourdough", true, ["turkey", "bacon"], "mayo", ["
 
 var grilledCheese = new Sandwich("white", false, "none", "none", "none", "cheddar")
 ``` 
+Notice that when we call these functions we always call them with the `new` keyword.  In Ruby you're used to calling `MyClass.new` and in Javascript we're going to do something very similar.  All functions in Javascript can be invoked with the new keyword but we only want to do it with functions that are intended to be used as contructor functions.  The way we let ourselves and others know when to use the new keyword is by making constructor functions start with captial letters!  If we forget the new keyword we'll run into all sorts of problems.
 
-And just to prove that we're dealing with sandwiches:
-
+How do we know that these are objects and that they were all created using the same constructor function?  We can look at the contstructor property which gets set during the initialization of the object for us!
 ```js
 blt.constructor;
 // returns the Sandwich constructor function

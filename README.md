@@ -88,6 +88,40 @@ turkeyClub.constructor;
 //returns the Sandwich constructor function
 grilledCheese.constructor;
 //returns the Sandwich constructor function
+```
 
+## Reading Property Values
+
+So now that we used the constructor function, how do we read the properties of an object?
+
+You can access the properties just like you did when we were treating objects as hashes:
+
+```js
+blt["breadType"];
+//returns white
+turkeyClub["meat"]
+// returns ["turkey", "bacon"]
+grilledCheese["crust"]
+//returns false
+```
+
+Or, you can use the dot-notation you're familiar with from Ruby:
+
+```js
+blt.breadType;
+//returns white
+turkeyClub.meat
+// returns ["turkey", "bacon"]
+grilledCheese.crust
+//returns false
+```
+
+## Reassigning Properties
+
+Let's say you actually like to eat your BLT with a slice of bacon and tomato, we would need to change the values of the `meat` and `veggies` properties:
+
+```js
+grilledCheese["meat"] = "bacon"
+grilledCheese.veggies = "tomato"
 ```
 

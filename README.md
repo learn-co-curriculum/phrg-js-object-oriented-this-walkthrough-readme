@@ -78,9 +78,9 @@ var turkeyClub = new Sandwich("sourdough", true, ["turkey", "bacon"], "mayo", ["
 
 var grilledCheese = new Sandwich("white", false, "none", "none", "none", "cheddar")
 ``` 
-Notice that when we call these functions we always call them with the `new` keyword.  In Ruby you're used to calling `MyClass.new` and in Javascript we're going to do something very similar.  All functions in Javascript can be invoked with the new keyword but we only want to do it with functions that are intended to be used as contructor functions.  The way we let ourselves and others know when to use the new keyword is by making constructor functions start with captial letters!  If we forget the new keyword we'll run into all sorts of problems.
+Notice that when we call these functions we always call them with the `new` keyword.  In Ruby you're used to calling `MyClass.new` and in JavaScript we're going to do something very similar.  All functions in JavaScript can be invoked with the new keyword but we only want to do it with functions that are intended to be used as constructor functions.  The way we let ourselves and others know when to use the new keyword is by making constructor functions start with capital letters!  If we forget the new keyword we'll run into all sorts of problems.
 
-How do we know that these are objects and that they were all created using the same constructor function?  We can look at the contstructor property which gets set during the initialization of the object for us!
+How do we know that these are objects and that they were all created using the same constructor function?  We can look at the constructor property which gets set during the initialization of the object for us!
 ```js
 blt.constructor;
 // returns the Sandwich constructor function

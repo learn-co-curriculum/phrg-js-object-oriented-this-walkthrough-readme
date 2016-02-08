@@ -4,6 +4,7 @@
 + Create a constructor function
 + Use a constructor function to create an object
 + Explain what a constructor function is and how it works
++ Explain what `this` is in the context of an object
 
 ## Intro
 

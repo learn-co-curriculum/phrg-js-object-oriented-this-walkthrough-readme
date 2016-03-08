@@ -119,10 +119,12 @@ grilledCheese.crust
 
 ## Reassigning Properties
 
-Let's say you actually like to eat your BLT with a slice of bacon and tomato, we would need to change the values of the `meat` and `veggies` properties:
+Let's say you actually like to eat your grilled cheese with a slice of bacon and tomato, we would need to change the values of the `meat` and `veggies` properties:
 
 ```js
 grilledCheese["meat"] = "bacon"
 grilledCheese.veggies = "tomato"
 ```
 
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/js-create-objects-readme'>Creating Objects in JS</a> on Learn.co and start learning to code for free.</p>

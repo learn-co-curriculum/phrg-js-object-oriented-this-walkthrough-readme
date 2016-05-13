@@ -17,7 +17,7 @@ var blt = {
   crust: false,
   meat: "bacon",
   condiments: "mayo",
-  veggies: "lettuce",
+  veggies: ["lettuce", "tomato"]
   cheese: "none"
 }
 
@@ -73,7 +73,7 @@ You'll also notice inside the body of the constructor function we're using `this
 Let's go ahead and use this handy constructor function to create our sandwiches:
 
 ```js
-var blt = new Sandwich("white", false, "bacon", "mayo", "lettuce", "none")
+var blt = new Sandwich("white", false, "bacon", "mayo", ["lettuce", "tomato"], "none")
 
 var turkeyClub = new Sandwich("sourdough", true, ["turkey", "bacon"], "mayo", ["lettuce", "tomato"], "cheddar")
 
@@ -128,3 +128,5 @@ grilledCheese.veggies = "tomato"
 
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/js-create-objects-readme'>Creating Objects in JS</a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/js-create-objects-readme'>Creating Objects in JS</a> on Learn.co and start learning to code for free.</p>

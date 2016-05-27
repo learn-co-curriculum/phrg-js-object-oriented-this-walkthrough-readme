@@ -17,7 +17,7 @@ var blt = {
   crust: false,
   meat: "bacon",
   condiments: "mayo",
-  veggies: ["lettuce", "tomato"]
+  veggies: ["lettuce", "tomato"],
   cheese: "none"
 }
 

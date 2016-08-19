@@ -67,7 +67,7 @@ that are attributes of the object, such as `meat` and `condiments` in a
 `sandwich`), but also allow us to *reuse* the data structure without
 constantly redefining it.
 
-In other words, we should only have to define they properties of a sandwich
+In other words, we should only have to define the properties of a sandwich
 one time and then be able to create as many different sandwiches as we
 want without repeating ourselves.
 
@@ -76,7 +76,7 @@ to construct many different sandwiches?
 
 ### Constructor Function
 
-Of course there is! It's called a *constructor function*, and and its job, as you might guess from the very on-the-nose name, is to construct new objects. We use the constructor function pattern to essentially build a *prototype* for what an object will look like, including all the properties.
+Of course there is! It's called a *constructor function*, and its job, as you might guess from the very on-the-nose name, is to construct new objects. We use the constructor function pattern to essentially build a *prototype* for what an object will look like, including all the properties.
 
 **Advanced:** We call the constructor function a *pattern* because it's
 not a concept that's built-in to the JavaScript language, but rather a

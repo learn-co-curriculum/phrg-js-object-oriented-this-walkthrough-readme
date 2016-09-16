@@ -15,7 +15,7 @@ We can construct objects in JavaScript using the literal constructor:
 
 ```js
 var blt = {
-  breadType: "white",
+  bread: "white",
   crust: false,
   meat: "bacon",
   condiments: "mayo",

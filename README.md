@@ -120,7 +120,7 @@ var grilledCheese = new Sandwich("white", false, "none", "none", "none", "chedda
 
 Notice that when we call these functions, we always call them with the `new` keyword. JavaScript needs us to use the `new` keyword to instantiate a new instance of an object. Without it, we're just invoking the function and setting it to the value of a variable, and since the function doesn't return anything, our variable will be `undefined`.
 
-All functions in JavaScript can be invoked with the `new` keyword, but we only want to do it with functions that are intended to be used as constructor functions. The way we let ourselves and others know when to use the `new` keyword is by making constructor functions start with capital letters! If we forget the new keyword we'll run into all sorts of problems.
+All functions in JavaScript can be invoked with the `new` keyword, but we only want to do it with functions that are intended to be used as constructor functions. The way we let ourselves and others know when to use the `new` keyword is by making constructor functions start with capital letters! If we forget the `new` keyword we'll run into all sorts of problems.
 
 How do we know that these are objects and that they were all created using the same constructor function?  We can look at the `constructor` property, which gets set automatically during the initialization of the object.
 
@@ -168,16 +168,12 @@ grilledCheese["meat"] = "bacon";
 grilledCheese.veggies = "tomato";
 ```
 
-!Now, I don't know why you'd ruin a perfectly good grilled cheese with
-tomatoes, but I'm not here to tell you how to live your life.
+Now, I don't know why you'd ruin a perfectly good grilled cheese with tomatoes, but I'm not here to tell you how to live your life.
 
 [Grill Me A Cheese](http://66.media.tumblr.com/tumblr_lls1snZ1AI1qi7deco1_500.gif)
 
 ## Summary
 
-We've reviewed working with objects in JavaScript, and started to think
-about *object-orientated programming* by applying the *constructor
-function* pattern when creating objects so that we can easily define and
-reuse objects that we design.
+We've reviewed working with objects in JavaScript, and started to think about *object-orientated programming* by applying the *constructor function* pattern when creating objects so that we can easily define and reuse objects that we design.
 
 <p class='util--hide'>View <a href='https://learn.co/lessons/js-create-objects-readme'>Creating Objects in JS</a> on Learn.co and start learning to code for free.</p>

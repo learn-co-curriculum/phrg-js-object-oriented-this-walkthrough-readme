@@ -8,169 +8,171 @@
 
 ## Introduction
 
-Simple variables are great for holding primitive data types, like strings and integers, but we often need a way to represent more complex data, associating many values to a single idea. In JavaScript, the `Object` is the basic associative data structure, and it works just like a dictionary. We can use these objects to associate data *values* with unique *keys*, giving us a human-readable representation of a logical collection of data.
+So far we have mainly examined primitive data types like strings and integers.  Sometimes it becomes convenient like to represent data in terms of key value pairs. For example, we may define a puppy's attributes as the following:
 
-We can construct objects in JavaScript using the literal constructor:
-`{}` and giving it some properties. Let's make a few sandwiches:
+```text
+  name -> fido
+  age  -> 2
+  color -> brown
+```
+
+JavaScript allows us to associate *keys* with their *values*, through use of an object.
+
+```javascript
+  let puppy = {name: 'fido', age: 2, color: 'brown'}
+
+  // our JavaScript object
+````
+
+We can construct objects in JavaScript using the literal constructor: `{}` and giving it some properties. Once we have constructed a JavaScript object note that we can add new attributes to the object through the dot syntax.
+
+  ```javascript
+    let puppy = {name: 'fido', age: 2, color: 'brown'}
+
+    puppy.size = 'large'
+    // adding a new attribute size with a value of 'large'
+    puppy
+    // {name: 'fido', age: 2, color: 'brown', size: 'large'}
+  ````
+
+Now imagine that we had a couple of puppies:
 
 ```js
-var blt = {
-  bread: "white",
-  crust: false,
-  meat: "bacon",
-  condiments: "mayo",
-  veggies: ["lettuce", "tomato"],
-  cheese: "none"
+let fido = {
+  name: 'fido',
+  age: 2,
+  color: 'brown',
+  size: 'large'
 }
 
-var turkeyClub = {
-  breadType: "sourdough",
-  crust: true,
-  meat: ["turkey", "bacon"],
-  condiments: "mayo",
-  veggies: ["lettuce", "tomato"],
-  cheese: "cheddar"
-}
-
-var grilledCheese = {
-  breadType: "white",
-  crust: false,
-  meat: "none",
-  condiments: "none",
-  veggies: "none",
-  cheese: "cheddar"
+let pluto = {
+  name: 'pluto',
+  age: 3,
+  color: 'yellow',
+  size: 'medium'
 }
 
 ```
 
-Great. Three sandwiches. Plenty to share so we don't get into a...
-situation.
+Great. Two nice puppies.
 
-![you ate my sandiwch](http://i.giphy.com/BeurjzzpsYwqQ.gif)
-
-You probably felt like this got tedious, however, and we only made three sandwiches. We're *[repeating ourselves](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)* a lot, copying and pasting (or, even worse, re-typing!) all of the same keys for our objects.
-
-### Objects vs. Object-Oriented
-
-When we talk about objects in terms of data structures it's simple. The language
-provides us with an `Object` type that helps us encapsulate data into
-key/value pairs.
-
-What we want to do now though is talk about objects in terms of
-*object-oriented programming*, which goes beyond simple data structures.
-
-In object-oriented programming, we use objects to represent logical and
-often physical concepts, such as students, books, and even delicious
-sandwiches. In object-oriented programming (OOP), our objects should
-not only allow us to *encapsulate* data (i.e. gather and store values
-that are attributes of the object, such as `meat` and `condiments` in a
-`sandwich`), but also allow us to *reuse* the data structure without
-constantly redefining it.
-
-In other words, we should only have to define the properties of a sandwich
-one time and then be able to create as many different sandwiches as we
-want without repeating ourselves.
-
-Is there a way to use JavaScript to create a template for a sandwich object that we can use
-to construct many different sandwiches?
+Note, that with a both objects sharing exactly the same keys, and only the values differing, we are *[repeating ourselves](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)*.  We would like a mechanism to construct objects with the same attributes (that is, keys), while assigning different values to those keys.   
 
 ### Constructor Function
 
-Of course there is! It's called a *constructor function*, and its job, as you might guess from the very on-the-nose name, is to construct new objects. We use the constructor function pattern to essentially build a *prototype* for what an object will look like, including all the properties.
+Instead of typing out each attribute separately with the literal syntax, we can use a *constructor function*.  It operates as a factory for new objects.
 
-**Advanced:** We call the constructor function a *pattern* because it's
-not a concept that's built-in to the JavaScript language, but rather a
-design pattern that has evolved in to common usage as an accepted
-standard way to instantiate an object. Patterns can be small,
-task-oriented recipes, such as this constructor function, or they can be
-big, architecture-oriented guidelines, such as the MVC pattern at the
-root of a framework like Ruby on Rails or AngularJS. You can read more about design
-patterns [here](http://www.oodesign.com/).
-
-Let's build a constructor function for our sandwich objects:
+Let's write a constructor function that returns a Javascript object without any attributes:
 
 ```js
-function Sandwich(bread, crust, meat, condiments, veggies, cheese) {
-  this.breadType = bread;
-  this.crust = crust;
-  this.meat = meat;
-  this.condiments = condiments;
-  this.veggies = veggies;
-  this.cheese = cheese;
+function Puppy() {
+
 }
+
+Puppy()
+// undefined
+
+
+new Puppy
+// {}
 ```
 
-You'll notice the name of the constructor function `Sandwich` starts with a capital letter. This is important. While the capitalization of a function does not affect how it behaves, it serves as an important signal to our fellow programmers that this function should ONLY be used as a constructor. Adhering to this *convention* is a good way to communicate intent to other developers who may have to maintain this code.
+Let's unpack the code above.  First, we declare a function called `Puppy`.  We capitalize the name of the function simply as a convention, to indicate that we will be using this function differently.  This function is just a plain old JavaScript function.  We demonstrate that by calling `Puppy()` and seeing that it returns undefined, just like any other blank JavaScript function would.  
 
-Next, we define the function to accept a whole bunch of parameters. When we create objects with this constructor function, we'll pass in the value of the properties we want our object to have.
+However, when we call this function with the `new` keyword, things change.  First, JavaScript creates a new object, `{}`.  Second, the newly created object is automatically returned from the function.  Note that this occurs even though there is no explicit returns inside of the function.  Not exactly how we remember functions operating.  
 
-**Top-tip:** You'll notice inside the body of the constructor function we're using `this` in front of each of the property names. In this case, `this` will refer to the current object being created, and it's how we differentiate between the *property* `crust` and the local variable `crust` that we got from the function arguments.
-
-### Creating an Instance From a Constructor Function
-
-Now that we have a constructor function, let's create our sandwiches:
+Now, as promised, we want our constructor function to provide a mechanism for standardizing the attributes we assign to the object.  We can do this by defining our constructor function with some arguments.
 
 ```js
-var blt = new Sandwich("white", false, "bacon", "mayo", ["lettuce", "tomato"], "none");
+function Puppy(name, age, color, size) {
 
-var turkeyClub = new Sandwich("sourdough", true, ["turkey", "bacon"], "mayo", ["lettuce", "tomato"], "cheddar");
+}
 
-var grilledCheese = new Sandwich("white", false, "none", "none", "none", "cheddar");
+let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
+// {}
 ```
 
-Notice that when we call these functions, we always call them with the `new` keyword. JavaScript needs us to use the `new` keyword to instantiate a new instance of an object. Without it, we're just invoking the function and setting it to the value of a variable, and since the function doesn't return anything, our variable will be `undefined`.
+So mission accomplished, sort of.  We see that we can define our constructor function to take in four arguments, and name those arguments appropriately.  However, when we execute the function we are not doing anything with the data that we are passing in, and therefore we are still returning the same blank object.  
 
-All functions in JavaScript can be invoked with the `new` keyword, but we only want to do it with functions that are intended to be used as constructor functions. The way we let ourselves and others know when to use the `new` keyword is by making constructor functions start with capital letters! If we forget the `new` keyword we'll run into all sorts of problems.
-
-How do we know that these are objects and that they were all created using the same constructor function?  We can look at the `constructor` property, which gets set automatically during the initialization of the object.
+To have this object being returned with specific attributes we need to know a couple other things about constructor functions. First, is that when we call a function with the `new` keyword the body of the constructor function is run.  Let's see that:
 
 ```js
-blt.constructor;
-// returns the Sandwich constructor function
-turkeyClub.constructor;
-//returns the Sandwich constructor function
-grilledCheese.constructor;
-//returns the Sandwich constructor function
+function Puppy(name, age, color, size) {
+  console.log(name)
+  console.log(age)
+}
+
+let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
+// snoopy
+// 3
+// {}
 ```
 
-### Reading Property Values
+So the name and age is logged, just like our function instructs.  This helps us, because now we can write code such that every time we call our constructor function, we can write code to access the newly created objects and assign some attributes.
 
-So now that we used the constructor function, how do we read the properties of an object?
-
-You can access the properties just like you did when we were treating objects as hashes:
+Now the only thing we need is a way to access the newly created object, and then assign that newly created objects attributes corresponding to the values passed through.  How do we access that newly created object?  With the `this` keyword.
 
 ```js
-blt["breadType"];
-//returns white
-turkeyClub["meat"]
-// returns ["turkey", "bacon"]
-grilledCheese["crust"]
-//returns false
+function Puppy(name, age, color, size) {
+  console.log(this)
+}
+
+let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
+// {}
+// {}
 ```
 
-Or, you can use the dot-notation you're familiar with from Ruby:
+So now we see the same new object logged twice, thus proving that we have access to that object from inside of our constructor function.  Our final step is to modify that object by assigning it some attributes accordingly.   
 
 ```js
-blt.breadType;
-//returns white
-turkeyClub.meat;
-// returns ["turkey", "bacon"]
-grilledCheese.crust;
-//returns false
+function Puppy(name, age, color, size) {
+  this.name = name
+  this.age = age
+  this.color = color
+  this.size = size
+}
+
+let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
+// {name: 'snoopy', age: 3, color: 'white', size: 'medium'}
 ```
+So you can see that we modified our constructor function such that when it is called, it creates the new JavaScript object.  We refer to that JavaScript object from inside of our function with the `this` keyword.  We then assign that new JavaScript object attributes with values that we receive from the arguments passed through.
 
-### Reassigning Property Values
+### It's an easy game from here
 
-Let's say you actually like to eat your grilled cheese with a slice of bacon and tomato, we would need to change the values of the `meat` and `veggies` properties:
+The objects that we return operate just like the JavaScript objects you have seen before.  You can read from the object with either the dot or bracket syntax.  
 
 ```js
-grilledCheese["meat"] = "bacon";
-grilledCheese.veggies = "tomato";
+snoopy["age"];
+// 3
+snoopy.age
+// 3
 ```
 
-Now, I don't know why you'd ruin a perfectly good grilled cheese with tomatoes, but I'm not here to tell you how to live your life.
+And we can modify the objects by assigning new values with dot or bracket syntax:
 
-[Grill Me A Cheese](http://66.media.tumblr.com/tumblr_lls1snZ1AI1qi7deco1_500.gif)
+```js
+snoopy["age"] = 4;
+
+snoopy
+// {name: 'snoopy', age: 4, color: 'white', size: 'medium'}
+
+snoopy.age = 5
+
+// {name: 'snoopy', age: 5, color: 'white', size: 'medium'}
+```
+
+And of course we can create as many objects we want with our constructor function.
+
+```js
+function Puppy(name, age, color, size) {
+  this.name = name
+  this.age = age
+  this.color = color
+  this.size = size
+}
+
+let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
+```
 
 ## Summary
 

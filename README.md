@@ -1,182 +1,119 @@
-# Creating Objects
+# JavaScript This Walkthrough
 
 ## Objectives
-+ Create a constructor function
-+ Use a constructor function to create an object
-+ Explain what a constructor function is and how it works
-+ Explain what `this` is in the context of an object
++ Understand how `this` depends on the invocation of a method
 
-## Introduction
+## Deep Dive into This
 
-So far we have mainly examined primitive data types like strings and integers.  Sometimes it becomes convenient like to represent data in terms of key value pairs. For example, we may define a puppy's attributes as the following:
+JavaScript's `this` keyword can sometimes be unpredictable.  And now that we going deeper into object oriented code, we should discuss it with the detail that it deserves.  So let's explain our rule to know what `this` is.  Our rule is simple:   
 
-```text
-  name -> fido
-  age  -> 2
-  color -> brown
-```
+**If this is referenced directly inside a method, it equals the object that received the method call.  Otherwise this is global**
 
-JavaScript allows us to associate *keys* with their *values*, through use of an object.
+The rest of this lesson will show all of the twists and turns we can encounter in strictly applying the above rule.  But first, let's make sure we properly define the word *method*.  A JavaScript method is a property on an object that points to a function.  So just like we can write `let person = {name: 'bob'}`, whereby the `name` property points to a value of `'bob'`, we can also write the following:
 
 ```javascript
-  let puppy = {name: 'fido', age: 2, color: 'brown'}
 
-  // our JavaScript object
-````
-
-We can construct objects in JavaScript using the literal constructor: `{}` and giving it some properties. Once we have constructed a JavaScript object note that we can add new attributes to the object through the dot syntax.
-
-  ```javascript
-    let puppy = {name: 'fido', age: 2, color: 'brown'}
-
-    puppy.size = 'large'
-    // adding a new attribute size with a value of 'large'
-    puppy
-    // {name: 'fido', age: 2, color: 'brown', size: 'large'}
-  ````
-
-Now imagine that we had a couple of puppies:
-
-```js
-let fido = {
-  name: 'fido',
-  age: 2,
-  color: 'brown',
-  size: 'large'
+let person = {
+  greet: function(){
+    console.log('hello')
+  }
 }
 
-let pluto = {
-  name: 'pluto',
-  age: 3,
-  color: 'yellow',
-  size: 'medium'
+typeof person.greet
+// 'function'
+```
+
+And have the `greeting` property point to a function.  Because this `greet` property on our object points to a function, we the property a method.  Ok, so because the `greet` property is a method, we know that when we call `person.greet()` the object receiving the method call equals person.  Let's modify our `greet` function and see that:
+
+```javascript
+
+let person = {
+  greet: function(){
+    return this
+  }
+}
+
+typeof person.greet
+// 'function'
+person.greet() == person
+// true
+```
+
+We see that `person.greet()` returns `this`, which refers to the object that received the method call.
+
+### Watching this change
+
+Ok, hang on tight, because we are about to see something weird.  Let's modify the code above slightly:
+
+```javascript
+
+let person = {
+  greet: function(){
+    return this
+  }
+}
+
+person.greet() == person
+// true
+
+let greetFn = person.greet
+
+greet() == person
+// false
+greet()
+// window
+
+person.greet() == person
+// true
+```
+
+Ok, so let's walk through the code above.  We set our `greet` property on the `person` object to point to the same function, and see that when we call `person.greet()`, `this` refers to the `person` object.  The tricky part happens when we write `let greetFn = person.greet`.  What this does is assign a local variable `greetFn` to refer to the function on the `person` object.  However, this local variable **does not** refer to the `person` object at all.  It has zero knowledge of the person object.  It *only* points to the function.  Then we invoke the function by calling `greet()`.  In doing so, we are not calling the property on the object, we are simply invoking the function, making `this` global - or in the context of the browser, `window`.
+
+### Functions within Functions
+
+Let's see another occurrence where `this` becomes global, by invoking functions within functions.  Let's change our code to look like the following:
+
+```javascript
+
+let person = {
+  greet: function greeting(){
+   function otherFunction(){
+     return this
+   }
+   return otherFunction()
+  }
 }
 
 ```
 
-Great. Two nice puppies.
+Ok, let's walk through what the above code is doing.  Our object, `person` has a property `greet` that points to a function called `greeting`.  Now when our method `greet` is called, it first declares and then invokes the `otherFunction` function.  The `otherFunction` returns `this`, which is returned by the `greet` method.  So what does this equal.  Well, note that `this` **is not** referenced directly inside a method.  This is because `otherFunction` is not a method, but a function.
 
-Note, that with a both objects sharing exactly the same keys, and only the values differing, we are *[repeating ourselves](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)*.  We would like a mechanism to construct objects with the same attributes (that is, keys), while assigning different values to those keys.   
-
-### Constructor Function
-
-Instead of typing out each attribute separately with the literal syntax, we can use a *constructor function*.  It operates as a factory for new objects.
-
-Let's write a constructor function that returns a Javascript object without any attributes:
+Remember, a method is a property that points to function.  If we call the `person.greet` property, it returns the `greeting` function, not `otherFunction`.  Because no property on an object points to `otherFunction`, `otherFunction` is not a method, and as `this` is referenced in our non-method, `this` is global, or the window.
 
 ```js
-function Puppy() {
 
-}
-
-Puppy()
-// undefined
-
-
-new Puppy
-// {}
+  person.greet()
+  // window
 ```
 
-Let's unpack the code above.  First, we declare a function called `Puppy`.  We capitalize the name of the function simply as a convention, to indicate that we will be using this function differently.  This function is just a plain old JavaScript function.  We demonstrate that by calling `Puppy()` and seeing that it returns undefined, just like any other blank JavaScript function would.  
+So as you see from the above examples, we sometimes reference `this` from functions, not methods.  When that occurs, `this` is not referenced from inside a method, it is global.
 
-However, when we call this function with the `new` keyword, things change.  First, JavaScript creates a new object, `{}`.  Second, the newly created object is automatically returned from the function.  Note that this occurs even though there is no explicit returns inside of the function.  Not exactly how we remember functions operating.  
+### This and Callbacks
 
-Now, as promised, we want our constructor function to provide a mechanism for standardizing the attributes we assign to the object.  We can do this by defining our constructor function with some arguments.
+Now we have seen functions call other functions whenever we use a callback.  And it's worth reminding ourself that many out of the box JavaScript functions are passed callbacks.  So if we did something like the following:
 
 ```js
-function Puppy(name, age, color, size) {
-
-}
-
-let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
-// {}
+  [1, 2, 3].filter(function(element){
+    console.log(this)
+    return element%2 == 0
+  })
+  // window
+  // window
+  // window
 ```
 
-So mission accomplished, sort of.  We see that we can define our constructor function to take in four arguments, and name those arguments appropriately.  However, when we execute the function we are not doing anything with the data that we are passing in, and therefore we are still returning the same blank object.  
+Each time our callback function is invoked, `this` is global.  Do you see why?  Our function is invoked by the `filter` method.  Filter is a method.  We can invoke it as a property on our array.  However, the callback function is not called as a property on an object, and thus when we reference `this` from inside the callback function, `this` is the window, or global scope.
 
-To have this object being returned with specific attributes we need to know a couple other things about constructor functions. First, is that when we call a function with the `new` keyword the body of the constructor function is run.  Let's see that:
+### Summary
 
-```js
-function Puppy(name, age, color, size) {
-  console.log(name)
-  console.log(age)
-}
-
-let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
-// snoopy
-// 3
-// {}
-```
-
-So the name and age is logged, just like our function instructs.  This helps us, because now we can write code such that every time we call our constructor function, we can write code to access the newly created objects and assign some attributes.
-
-Now the only thing we need is a way to access the newly created object, and then assign that newly created objects attributes corresponding to the values passed through.  How do we access that newly created object?  With the `this` keyword.
-
-```js
-function Puppy(name, age, color, size) {
-  console.log(this)
-}
-
-let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
-// {}
-// {}
-```
-
-So now we see the same new object logged twice, thus proving that we have access to that object from inside of our constructor function.  Our final step is to modify that object by assigning it some attributes accordingly.   
-
-```js
-function Puppy(name, age, color, size) {
-  this.name = name
-  this.age = age
-  this.color = color
-  this.size = size
-}
-
-let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
-// {name: 'snoopy', age: 3, color: 'white', size: 'medium'}
-```
-So you can see that we modified our constructor function such that when it is called, it creates the new JavaScript object.  We refer to that JavaScript object from inside of our function with the `this` keyword.  We then assign that new JavaScript object attributes with values that we receive from the arguments passed through.
-
-### It's an easy game from here
-
-The objects that we return operate just like the JavaScript objects you have seen before.  You can read from the object with either the dot or bracket syntax.  
-
-```js
-snoopy["age"];
-// 3
-snoopy.age
-// 3
-```
-
-And we can modify the objects by assigning new values with dot or bracket syntax:
-
-```js
-snoopy["age"] = 4;
-
-snoopy
-// {name: 'snoopy', age: 4, color: 'white', size: 'medium'}
-
-snoopy.age = 5
-
-// {name: 'snoopy', age: 5, color: 'white', size: 'medium'}
-```
-
-And of course we can create as many objects we want with our constructor function.
-
-```js
-function Puppy(name, age, color, size) {
-  this.name = name
-  this.age = age
-  this.color = color
-  this.size = size
-}
-
-let snoopy = new Puppy('snoopy', 3, 'white', 'medium')
-// {name: 'snoopy', age: 3, color: 'white', size: 'medium'}
-```
-
-## Summary
-
-We've reviewed working with objects in JavaScript, and started to think about *object-orientated programming* by applying the *constructor function* pattern when creating objects so that we can easily define and reuse objects that we design.
-
-<p class='util--hide'>View <a href='https://learn.co/lessons/js-create-objects-readme'>Creating Objects in JS</a> on Learn.co and start learning to code for free.</p>
+The above lesson displayed how `this` changes depending on whether it is referenced from inside a method or a function.  We saw that even if a function was originally declared as a property on an object, if we do not reference the function as a method, `this` will be global.  We also saw that when a function invokes another function, from the inner function `this` is global.  Finally, we showed how callback methods are a specific application of an inner function being called, and therefore `this` is also global inside of callbacks passed to our array iterator methods.

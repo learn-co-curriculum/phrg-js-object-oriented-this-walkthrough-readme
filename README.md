@@ -23,7 +23,7 @@ typeof person.greet
 // 'function'
 ```
 
-And have the `greeting` property point to a function.  Because this `greet` property on our object points to a function, we call the property a method.  Ok, so because the `greet` property is a method, we know that when we call `person.greet()` the object receiving the method call equals `person`.  Let's modify our `greet` function and see that:
+And have the `greet` property point to a function.  Because this `greet` property on our object points to a function, we call the property a method.  Ok, so because the `greet` property is a method, we know that when we call `person.greet()` the object receiving the method call equals `person`.  Let's modify our `greet` function and see that:
 
 ```javascript
 
@@ -58,16 +58,16 @@ person.greet() == person
 
 let greetFn = person.greet
 
-greet() == person
+greetFn() == person
 // false
-greet()
+greetFn()
 // window
 
 person.greet() == person
 // true
 ```
 
-Ok, so let's walk through the code above.  We set our `greet` property on the `person` object to point to the same function, and see that when we call `person.greet()`, `this` refers to the `person` object.  The tricky part happens when we write `let greetFn = person.greet`.  What this does is assign a local variable `greetFn` to refer to the function on the `person` object.  However, this local variable **does not** refer to the `person` object at all.  It has zero knowledge of the `person` object.  It *only* points to the function.  Then we invoke the function by calling `greet()`.  In doing so, we are not calling the property on the object, we are simply invoking the function, making `this` global - or in the context of the browser, `window`.
+Ok, so let's walk through the code above.  We set our `greet` property on the `person` object to point to the same function, and see that when we call `person.greet()`, `this` refers to the `person` object.  The tricky part happens when we write `let greetFn = person.greet`.  What this does is assign a local variable `greetFn` to refer to the function on the `person` object.  However, this local variable **does not** refer to the `person` object at all.  It has zero knowledge of the `person` object.  It *only* points to the function.  Then we invoke the function by calling `greetFn()`.  In doing so, we are not calling the property on the object, we are simply invoking the function, making `this` global - or in the context of the browser, `window`.
 
 ### Functions within Functions
 

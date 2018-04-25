@@ -117,3 +117,4 @@ Each time our callback function is invoked, `this` is global.  Do you see why?  
 ### Summary
 
 The above lesson displayed how `this` changes depending on whether it is referenced from inside a method or a function.  We saw that even if a function was originally declared as a property on an object, if we do not reference the function as a method, `this` will be global.  We also saw that when a function invokes another function, from the inner function `this` is global.  Finally, we showed how callback methods are a specific application of an inner function being called, and therefore `this` is also global inside of callbacks passed to our array iterator methods.
+<p data-visibility='hidden'>PHRG JavaScript This Walkthrough</p>
